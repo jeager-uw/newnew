@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>The Box, Explained</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    #map {
+        position: fixed;
+        width: 50%;
+    }
+    #features {
+        width: 50%;
+        margin-left: 50%;
+        font-family: sans-serif;
+        overflow-y: scroll;
+        background-color: #fafafa;
+    }
+    section {
+        padding: 25px 50px;
+        line-height: 25px;
+        border-bottom: 1px solid #ddd;
+        opacity: 0.25;
+        font-size: 13px;
+    }
+    section.active {
+        opacity: 1;
+    }
+    section:last-child {
+        border-bottom: none;
+        margin-bottom: 900px;
+    }
+</style>
+
+<div id="map"></div>
+<div id="features">
+    <section id="intro" class="active">
+        <h3>A Seattle Virtual Tour</h3>
+        <p>
+            You couldn't come to Seattle this year, so this is my attempt to 
+            bring Seattle to you. We sent a box that hopefully represents some 
+            of our favorite things from all over the city!
+        </p>
+    </section>
+    <section id="jack">
+        <h3>Apt 608 @ The Jack</h3>
+        <p>
+            For obvious reasons, you obviously haven't been able to visit us here 
+            in Seattle, yet. In lieu of a visit, I've tried to put a box together 
+            of things which are very "Seattle", and which includes places that 
+            we would have visited. Of course, we're starting here at The Jack, 
+            in apartment 608. Half a mile from the Capitol Hill light rail station, 
+            where one could easily go to the University of Washington, downtown, 
+            the airport, or anywhere in between. Let's get started! 
+        </p>
+    </section>
+    <section id="vita">
+        <h3>Caffe Vita</h3>
+        <p>
+            From Caffe Vita: a bag of seasonal coffee, obviously. On the same block 
+            as the Jack, Caffe Vita is probably quickly becoming  my most frequented 
+            coffee spot in Seattle. I haven't been able to sit  and people-watch 
+            because of COVID, of course, but it has been a great spot to run in for 
+            a capuccino or espresso or bag of coffee. Hopefully we can have a <i>fika</i>
+            here sometime soon!
+        </p>
+    </section>
+    <section id="hoodfamous">
+        <h3>Hood Famous Cafe</h3>
+        <p>
+            One of Seattle's most underappreciated neighborhoods, it was difficult to 
+            pick something from the Chinatown – International District to put in the 
+            box. But apparently dim sum doesn't travel well, so I packed some of my 
+            favorite cookies in the city instead. Ube is like a purple sweet potato
+            popular in the Philippines and at this Philippino bakery. My favorite thing 
+            here is actually the Guava cheesecake, but that also doesn't pack well... 
+            Either way, hope you like them!
+        </p>
+    </section>
+    <section id="pikeplace">
+        <h3>Pike Place Market</h3>
+        <p>
+            Naturally, any visit probably includes a trip to Pike Place Market. This 
+            box includes some Chukar Cherries (I was assured the amaretto flavor was
+            good... let me know) and crackers from Beecher's Cheese (didn't want to risk
+            an actual block of cheese sitting in a post office). While I vaguely remember 
+            our time in Seattle in 2008, I definitely remember Pike Place Market. It's 
+            still full of buskers, flying fish, and great food. 
+        </p>
+    </section>
+    <section id="hudson">
+        <h3>Apt 310 @ The Hudson</h3>
+        <p>
+            This is a quick pit stop to point out that we <i>used</i> to live here. It 
+            was okay for a bit, but I'm definitely glad we moved. 
+        </p>
+    </section>
+    <section id="theo">
+        <h3>Theo's Chocolate</h3>
+        <p>
+            One of my favorite things about the old apartment was actually walking a half
+            mile north, and crossing the Fremont Bridge. A couple of blocks further west
+            and the air started to faintly, then strongly, smell of rich chocolate. 
+            The first time it happened was completely unexpected, but it turned into one 
+            of my favorite things about walking through Fremont. Included are a couple of 
+            Theo's bars – hope you like them. 
+        </p>
+    </section>
+    <section id="sfingday">
+        <h3>sfingday</h3>
+        <p>
+            Aside from smells of chocolate and some <a href="https://s3.amazonaws.com/gs-waymarking-images/e712e7f5-0a55-4cc0-a40c-88deedce8d72_d.jpg">bold claims</a>, Fremont is also full of 
+            these odd little shops that sell handmade crafts, vintage trinkets, and other 
+            odds and ends that nobody really needs. This one usually has some nice things,
+            and I thought the Volcanoes of Washington coasters and Puget Sound Mint Soap 
+            were some nice souvenirs. The coasters are especiialy great if you <a href="https://www.youtube.com/watch?v=17hnNOFaRH4">respect wood</a>. 
+        </p>
+    </section>
+    <section id="salare">
+        <h3>Junebaby & Salare</h3>
+        <p>
+            Junebaby and Salare are both restaurants owned and operated by Chef Eduardo 
+            Jordan. He used to work at the French Laundry and Per Se (among others) and Junebaby 
+            is like "fine dining" soul food, while Salare is a constantly-shifting menu with 
+            seasonal interpretations of different global cuisines. In that spirit, the box 
+            includes a jar of Salare's berbere spice blend. One of the first street foods we ate 
+            in Seattle was Ethiopian, so it's sort of a doub`le-reference. It goes great on 
+            chicken: rub it onto skin-on thighs, crisp the skins at medium heat in the cast-iron, 
+            flip and finish in the oven with some lentils, vegetables, or whatever. That'll have 
+            to do until we can go to either of these places together. 
+        </p>
+    </section>
+    <section id="jam">
+        <h3>Girl Meets Dirt</h3>
+        <p>
+            I didn't trek all the way out to Orcas Island for this jam, but I sure would like 
+            to make it back out there sometime soon. I haven't tried this flavor yet, so 
+            let me know how it is! If it's good, maybe it's a worth a stop on the next Orcas
+            Island getaway. 
+        </p>
+    </section>
+    <section id="end">
+        <h3>All the Rest</h3>
+        <p>
+            The candle and honey are from somewhere in Oregon and somewhere in Washington, 
+            respectively. I just thought the candle smelled nice and wildflower honey sounded 
+            interesting! Hopefully they help bring you to Upper Left, USA, along with all these 
+            other little smells and tastes. You may not have been able to visit in person yet, 
+            but these all represent places, activites, and neighborhoods that have been significant 
+            to my time here, and that I wanted to share with you. Love you both, and hope I can 
+            show you around to some of these places safely sometime soon. 
+
+        </p>
+    </section>
+    <section id="end2">
+        <h3>Credits</h3>
+        <p>
+            Map by James | Box by Emma & James
+
+        </p>
+    </section>
+</div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiamltZWFnYWgiLCJhIjoiY2l2aWw3YmJnMDIxdzJ5bXFuZDZ4bnU1YiJ9.lMwViZI1fDl75hf6XGm78g';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/jimeagah/ck7uno38007z91ili6vm8oeoc',
+        center: [ -122.31829355418627,47.61369039758652],
+        zoom: 10
+    });
+
+    var chapters = {
+        'intro': {
+            center: [ -122.31829355418627,47.61369039758652],
+            zoom: 10
+        },
+        'jack': {
+            center: [ -122.31829355418627,47.61369039758652],
+            zoom: 15.5,
+            speed: 0.5
+        },
+        'vita': {
+            center: [ -122.31903837154394,47.613911882932264],
+            zoom: 17,
+            pitch: 0,
+            speed: 0.3
+        },
+        'hoodfamous': {
+            center: [ -122.32753622653036, 47.598089246325074],
+            zoom: 17,
+            speed: 0.7,
+            pitch: 40
+        },
+        'pikeplace': {
+            center: [-122.34186261150201,47.60965307060488 ],
+            zoom: 15.6,
+            speed: 0.6,
+            bearing: 300,
+            pitch: 60
+        },
+        'hudson': {
+            center: [ -122.34561296257043,47.64126206149398],
+            zoom: 14,
+            pitch: 30,
+            bearing: 0
+        },
+        'theo': {
+            center: [ -122.35422770155527, 47.65160764641174],
+            zoom: 17,
+            pitch: 40,
+            bearing: 340,
+            speed:0.5
+        },
+        'sfingday': {
+            center: [ -122.35141510579756, 47.65139184277931],
+            zoom: 16.5,
+            pitch: 20,
+            bearing: 45,
+            speed: 0.3
+        },
+        'salare': {
+            center: [ -122.30120866694382, 47.67616752035508],
+            zoom: 15.5,
+            bearing: 0,
+            speed: 0.6
+        },
+        'jam': {
+            center: [ -122.91117613675804, 48.69979611796227],
+            zoom: 15,
+            pitch: 40,
+            speed: 0.5
+        },
+        'end': {
+            center: [ -122.39250495984983,47.644840298506466],
+            zoom: 8,
+            speed: 0.4
+        },
+        'end2': {
+            center: [ -122.39250495984983,47.644840298506466],
+            zoom: 8
+        }
+    };
+
+    // On every scroll event, check which element is on screen
+    window.onscroll = function () {
+        var chapterNames = Object.keys(chapters);
+        for (var i = 0; i < chapterNames.length; i++) {
+            var chapterName = chapterNames[i];
+            if (isElementOnScreen(chapterName)) {
+                setActiveChapter(chapterName);
+                break;
+            }
+        }
+    };
+
+    var activeChapterName = 'intro';
+    function setActiveChapter(chapterName) {
+        if (chapterName === activeChapterName) return;
+
+        map.flyTo(chapters[chapterName]);
+
+        document.getElementById(chapterName).setAttribute('class', 'active');
+        document.getElementById(activeChapterName).setAttribute('class', '');
+
+        activeChapterName = chapterName;
+    }
+
+    function isElementOnScreen(id) {
+        var element = document.getElementById(id);
+        var bounds = element.getBoundingClientRect();
+        return bounds.top < window.innerHeight && bounds.bottom > 0;
+    }
+</script>
+
+</body>
+</html>
